@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./img/favicon.jpg">
+  <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Movies</title>
+</head>
+
+<body class="bg-secondary bg-opacity-50">
+  <main>
+    <section class="movies">
+      <div class="movies__container container">
+        <h1 class="movies__title h1 text-center mb-4">Movies</h1>
+        <div class="movies__inner">
+          <ul class="movies__list d-flex justify-content-evenly flex-wrap">
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <template id="movies__template">
+    <li class="movies__item card mb-5  text-center">
+      <a class="movie__link" href="" target="blank"></a>
+      <img class="movie__img rounded mb-2" src="" alt="" width="260" height="260">
+
+      <div class="px-4">
+        <h2 class="movie__title h4"></h2>
+        <p class="movie__reting fs-5 text-warning"></p>
+        <p class="movie__category"></p>
+      </div>
+    </li>
+  </template>
+  <script src="js/movies.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

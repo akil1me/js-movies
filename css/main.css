@@ -1,0 +1,19 @@
+.movies__item {
+  position: relative;
+  width: 260px;
+  transition: all 0.3s ease;
+}
+
+.movies__item:hover {
+  background: rgb(86, 86, 86);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.movie__link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
