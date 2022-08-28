@@ -1,4 +1,4 @@
-const movies = [
+let movies = [
   {
     "Title": "Patton Oswalt: Annihilation",
     "fulltitle": "Patton Oswalt: Annihilation (2017)",
