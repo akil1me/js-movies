@@ -76,7 +76,11 @@ elMoviesSelect.addEventListener("change", () => {
 })
 
 elMoviesInput.oninput = () => {
-  let filmName = arr.filter(movie => movie.title.includes(elMoviesInput.value));
+  let inputValue = elMoviesInput.value;
+
+  let regExp = new RegExp(inputValue.trim(), "gi")
+
+  let filmName = arr.filter(movie => regExp.test(movie.title));
 
   renderMovies(filmName);
 }
