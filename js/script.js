@@ -4,6 +4,8 @@ let elMoviesList = document.querySelector(".movies__list");
 let elMoviesTemplate = document.querySelector("#movies__template").content;
 let elItem = document.querySelector(".movies__item");
 
+let elMoviesSelectSort = document.querySelector(".movies__select-sort");
+
 movies = movies.slice(0, 100);
 
 let arr = [];
@@ -16,10 +18,12 @@ let elMoviesArr = movies.forEach(movie => {
       img: `http://i3.ytimg.com/vi/${movie.ytid}/hqdefault.jpg`,
       imdb: `https://www.imdb.com/title/${movie.imdb_id}/?ref_=hm_tpks_tt_i_6_pd_tp1_pbr_ic`,
       category: `<strong>Categorys:</strong> ${movie.Categories}`,
-      ytid: movie.ytid
+      ytid: movie.ytid,
+      retImdb: movie.imdb_rating
     }
   )
 })
+
 
 let createElementMovies = (movie) => {
   let newElItem = elMoviesTemplate.cloneNode(true);
@@ -54,7 +58,7 @@ let renderMovies = (movies) => {
 
 renderMovies(arr);
 
-let categorys = [...new Set(movies.map(movie => movie.Categories.split("|")).flat())];
+let categorys = [...new Set(movies.map(movie => movie.Categories.split("|")).flat())].sort();
 
 categorys.forEach(movie => {
   let categoryOption = document.createElement("option");
@@ -84,4 +88,45 @@ elMoviesInput.oninput = () => {
 
   renderMovies(filmName);
 }
+
+let arrDefault = arr.slice(0, 100);
+
+elMoviesSelectSort.addEventListener("change", function () {
+
+  if (this.value == "choose-sort-default") {
+    renderMovies(arrDefault);
+  }
+
+  else if (this.value == "choose-sort-A-Z") {
+    arr = arr.sort((a, b) => {
+      let movName1 = a.title.toLowerCase();
+      let movName2 = b.title.toLowerCase();
+      if (movName1 < movName2) return -1
+      return 1
+    });
+    renderMovies(arr);
+  }
+
+  else if (this.value == "choose-sort-Z-A") {
+    arr = arr.sort((a, b) => {
+      let movName1 = a.title.toLowerCase();
+      let movName2 = b.title.toLowerCase();
+      if (movName1 > movName2) return -1
+      return 1
+    });
+    renderMovies(arr);
+  }
+
+  else if (this.value == "choose-sort-0-10") {
+    arr = arr.sort((a, b) => a.retImdb - b.retImdb);
+    renderMovies(arr);
+  }
+
+  else if (this.value == "choose-sort-10-0") {
+    arr = arr.sort((a, b) => b.retImdb - a.retImdb);
+    renderMovies(arr);
+  }
+
+})
+
 

@@ -17,8 +17,8 @@
       <div class="movies__container container">
         <h1 class="movies__title h1 text-center mb-4">Movies</h1>
         <div class="movies__inner">
-          <div class="row mb-5 justify-content-around">
-            <div class="col-12 col-sm-6 mb-1 mb-sm-0">
+          <div class="row mb-5 justify-content-between">
+            <div class="col-12 col-sm-4 mb-1 mb-sm-0">
               <input class="movies__input form-control" type="search" placeholder="search movie....">
             </div>
 
@@ -28,8 +28,18 @@
               </select>
             </div>
 
+            <div class="col-12 col-sm-4 ">
+              <select class="movies__select-sort form-select">
+                <option class="text-primary fw-bold" selected hidden value="choose-sort">Sort movies</option>
+                <option class="text-primary fw-bold" value="choose-sort-default">Default</option>
+                <option class="text-primary fw-bold" value="choose-sort-A-Z">A-Z</option>
+                <option class="text-primary fw-bold" value="choose-sort-Z-A">Z-A</option>
+                <option class="text-primary fw-bold" value="choose-sort-0-10">Reyt 0-10</option>
+                <option class="text-primary fw-bold" value="choose-sort-10-0">Reyt 10-0</option>
+              </select>
+            </div>
           </div>
-          <ul class="movies__list d-flex justify-content-evenly flex-wrap list-unstyled">
+          <ul class="movies__list d-flex justify-content-between flex-wrap list-unstyled">
           </ul>
         </div>
       </div>
