@@ -7,7 +7,7 @@
 .movies__item:hover {
   background: rgb(86, 86, 86);
   color: #ffffff;
-  transform: scale(1.1);
+  transform: scale(1.03);
 }
 
 .movie__link {
@@ -16,4 +16,58 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.movie__btn {
+  bottom: 10px;
+  right: 10px;
+}
+
+.movie__btn-modal {
+  height: 520px;
+  overflow-y: scroll;
+}
+
+.movie__btn-modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.movie__btn-modal::-webkit-scrollbar-track {
+  background-color: gray;
+}
+
+.movie__btn-modal::-webkit-scrollbar-thumb {
+  background-color: yellow;
+}
+
+.movie__favorite {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.movies__item:hover .movie__favorite {
+  color: #ffffff;
+}
+
+.movie__favorite:hover {
+  transform: scale(1.5);
+}
+
+.modal__fovorite-chekbox:checked~.modal__fovorite-img {
+  color: yellow;
+}
+
+.movies__fav-item {
+  position: relative;
+}
+
+.movie__fovorite-btn-close {
+  position: absolute;
+  right: 10px;
 }

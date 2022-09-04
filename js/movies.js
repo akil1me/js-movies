@@ -131,7 +131,7 @@ let movies = [
     "ytid": "kYYINJM3lPA"
   },
   {
-    "Title": "The Secret Rules of Modern Living: Algorithms",
+    "Title": "The Secret Rules",
     "fulltitle": "The Secret Rules of Modern Living: Algorithms (2015)",
     "movie_year": 2015,
     "Categories": "Documentary",

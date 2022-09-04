@@ -17,37 +17,49 @@
       <div class="movies__container container">
         <h1 class="movies__title h1 text-center mb-4">Movies</h1>
         <div class="movies__inner">
-          <div class="row mb-5 justify-content-between">
-            <div class="col-12 col-sm-4 mb-1 mb-sm-0">
-              <input class="movies__input form-control" type="search" placeholder="search movie....">
+          <div class="row flex-row-reverse">
+            <div class="col-12 col-md-4">
+              <div class="row mb-5 justify-content-between">
+                <div class="col-12 mb-1">
+                  <input class="movies__input form-control" type="search" placeholder="search movie....">
+                </div>
+
+                <div class=" col-12 mb-1">
+                  <select class="movies__select form-select">
+                    <option class="text-primary fw-bold" selected value="choose-category">Choose all category</option>
+                  </select>
+                </div>
+
+                <div class="col-12 ">
+                  <select class="movies__select-sort form-select">
+                    <option class="text-primary fw-bold" value="choose-sort-default">Default sort</option>
+                    <option class="text-primary fw-bold" value="choose-sort-A-Z">A-Z</option>
+                    <option class="text-primary fw-bold" value="choose-sort-Z-A">Z-A</option>
+                    <option class="text-primary fw-bold" value="choose-sort-0-10">Reyt 0-10</option>
+                    <option class="text-primary fw-bold" value="choose-sort-10-0">Reyt 10-0</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <h3 class="text-center">Favorites</h3>
+                <ul class="movie__favorites-list list-unstyled"></ul>
+              </div>
             </div>
 
-            <div class=" col-12 col-sm-4 mb-1 mb-sm-0">
-              <select class="movies__select form-select">
-                <option class="text-primary fw-bold" selected value="choose-category">Choose all category</option>
-              </select>
-            </div>
-
-            <div class="col-12 col-sm-4">
-              <select class="movies__select-sort form-select">
-                <option class="text-primary fw-bold" selected hidden value="choose-sort">Sort movies</option>
-                <option class="text-primary fw-bold" value="choose-sort-default">Default</option>
-                <option class="text-primary fw-bold" value="choose-sort-A-Z">A-Z</option>
-                <option class="text-primary fw-bold" value="choose-sort-Z-A">Z-A</option>
-                <option class="text-primary fw-bold" value="choose-sort-0-10">Reyt 0-10</option>
-                <option class="text-primary fw-bold" value="choose-sort-10-0">Reyt 10-0</option>
-              </select>
+            <div class="col-12 col-md-8">
+              <ul
+                class="movies__list d-flex justify-content-center justify-content-md-between flex-wrap list-unstyled ">
+              </ul>
             </div>
           </div>
-          <ul class="movies__list d-flex justify-content-center justify-content-md-between flex-wrap list-unstyled">
-          </ul>
         </div>
       </div>
     </section>
   </main>
 
   <template id="movies__template">
-    <li class="movies__item card mb-5  text-center">
+    <li class="movies__item card mb-5 pb-5 position-relative">
       <a class="movie__link" href="" target="blank"></a>
       <img class="movie__img rounded mb-2" src="" alt="" width="260" height="260">
 
@@ -55,9 +67,42 @@
         <h2 class="movie__title h4"></h2>
         <p class="movie__reting fs-5 text-warning"></p>
         <p class="movie__category"></p>
+
+        <label class="movie__favorite">
+          <input class="visually-hidden modal__fovorite-chekbox" type="checkbox">
+          <svg class="bi bi-star-fill modal__fovorite-img" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+            fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+          </svg>
+        </label>
+
+        <button class="btn btn-primary position-absolute movie__btn" type="button" data-bs-toggle="modal"
+          data-bs-target="#elModal">more info</button>
       </div>
     </li>
   </template>
+
+  <!-- Modal -->
+  <div class="modal fade" id="elModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title movie__title-modal" id="exampleModalLabel">Modal title</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body movie__btn-modal">
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./bootstrap/bootstrap.bundle.min.js"></script>
   <script src="js/movies.js"></script>
   <script src="js/script.js"></script>
 </body>

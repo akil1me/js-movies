@@ -1,30 +1,48 @@
+// Search input and Select category
 let elMoviesInput = document.querySelector(".movies__input");
 let elMoviesSelect = document.querySelector(".movies__select");
+
+// Movies list
 let elMoviesList = document.querySelector(".movies__list");
+
+// Tempalte
 let elMoviesTemplate = document.querySelector("#movies__template").content;
 let elItem = document.querySelector(".movies__item");
 
+// Modal
+let elModal = document.querySelector(".movie__btn-modal");
+let elMoadalTitle = document.querySelector(".movie__title-modal");
+
+// Select sort
 let elMoviesSelectSort = document.querySelector(".movies__select-sort");
+
+// Movies Favorites List 
+let elMoviesFavoritesList = document.querySelector(".movie__favorites-list");
 
 movies = movies.slice(0, 100);
 
 let arr = [];
 
+let arrFovorite = [];
+
+// change key name in movies.js
 let elMoviesArr = movies.forEach(movie => {
   arr.push(
     {
+      titleLigt: movie.Title,
       title: movie.fulltitle,
       reting: `Reting film:  ${movie.imdb_rating}`,
       img: `http://i3.ytimg.com/vi/${movie.ytid}/hqdefault.jpg`,
       imdb: `https://www.imdb.com/title/${movie.imdb_id}/?ref_=hm_tpks_tt_i_6_pd_tp1_pbr_ic`,
       category: `<strong>Categorys:</strong> ${movie.Categories}`,
       ytid: movie.ytid,
-      retImdb: movie.imdb_rating
+      retImdb: movie.imdb_rating,
+      summary: movie.summary,
     }
   )
 })
 
-
+// create movies in Template
 let createElementMovies = (movie) => {
   let newElItem = elMoviesTemplate.cloneNode(true);
 
@@ -38,9 +56,61 @@ let createElementMovies = (movie) => {
 
   newElItem.querySelector(".movie__category").innerHTML = movie.category.split("|").join(", ");
 
+  // SelectorAll Button in Template
+  let elBtns = newElItem.querySelectorAll(".movie__btn");
+
+  elBtns.forEach(elBtn => {
+    elBtn.addEventListener("click", () => {
+      elMoadalTitle.textContent = movie.titleLigt;
+      elModal.innerHTML = `
+      <img class ="rounded" src="${movie.img}" alt="${movie.titleLigt}" width="100%" height="320">
+      <h4 class="h5 mt-3 mb-1">Fulltitle: ${movie.title}</h4>
+      <p class="text-warning mb-1">${movie.reting}</p>
+      <p class="mb-1">${movie.category.split("|").join(", ")}</p>
+      <p class="mb-0">${movie.summary}</p>    
+
+      `;
+    })
+
+    let elInputCheckFavorites = newElItem.querySelector(".modal__fovorite-chekbox");
+
+    let elMoviesFavoritesItem = document.createElement("li");
+    elMoviesFavoritesItem.className = "card p-2 flex-row mb-1 movies__fav-item ";
+
+    elInputCheckFavorites.addEventListener("change", function () {
+      let arrFovoriteIndex = arrFovorite.indexOf(movie.titleLigt);
+
+      if (elInputCheckFavorites.checked) {
+        elMoviesFavoritesItem.innerHTML = `
+        <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
+       <div>
+         <h5 class="mb-1">${movie.titleLigt}</h5>
+         <p class="mb-1">${movie.reting}</p>
+         <p class="mb-0">${movie.category.split("|").join(", ")}</p>
+        </div>
+        `;
+        arrFovorite.push(movie);
+        // add local storage
+        localStorage.setItem("Movies", JSON.stringify(arrFovorite));
+
+        elMoviesFavoritesList.appendChild(elMoviesFavoritesItem);
+
+      } else {
+        arrFovorite.splice(arrFovoriteIndex, 1)
+        elMoviesFavoritesList.removeChild(elMoviesFavoritesItem);
+      }
+
+    })
+  })
+
   return newElItem;
 }
 
+// get local storage
+let localInfo = localStorage.getItem("Movies");
+console.log(JSON.parse(localInfo));
+
+// Render Movies in append for list
 let renderMovies = (movies) => {
   elMoviesList.innerHTML = null;
 
@@ -69,11 +139,15 @@ categorys.forEach(movie => {
   elMoviesSelect.appendChild(categoryOption);
 })
 
+// Copy arr for default status sort
+let arrDefault = arr.slice(0, 100);
+
 elMoviesSelect.addEventListener("change", () => {
   let filt = arr.filter(movie => movie.category.includes(elMoviesSelect.value));
 
   if (elMoviesSelect.value == "choose-category") {
-    renderMovies(arr);
+    elMoviesSelectSort.value = "choose-sort-default";
+    renderMovies(arrDefault);
   } else {
     renderMovies(filt);
   }
@@ -89,11 +163,10 @@ elMoviesInput.oninput = () => {
   renderMovies(filmName);
 }
 
-let arrDefault = arr.slice(0, 100);
-
 elMoviesSelectSort.addEventListener("change", function () {
 
   if (this.value == "choose-sort-default") {
+    elMoviesSelect.value = "choose-category";
     renderMovies(arrDefault);
   }
 
@@ -128,5 +201,3 @@ elMoviesSelectSort.addEventListener("change", function () {
   }
 
 })
-
-
