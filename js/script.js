@@ -23,7 +23,35 @@ movies = movies.slice(0, 100);
 
 let arr = [];
 
-let arrFovorite = [];
+// get local storage
+let localInfo = JSON.parse(localStorage.getItem("Movies"));
+let arrFovorite = localInfo || [];
+
+arrFovorite.forEach(movie => {
+  let elMoviesFavoritesItem = document.createElement("li");
+  elMoviesFavoritesItem.className = "card p-2 flex-row mb-1 movies__fav-item ";
+
+  let elBtnClick = document.createElement("button");
+  elBtnClick.type = "button";
+  elBtnClick.className = "btn-close movie__fovorite-btn-close";
+
+  elMoviesFavoritesItem.innerHTML = `
+      <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
+     <div>
+       <h5 class="mb-1">${movie.titleLigt}</h5>
+       <p class="mb-1">${movie.reting}</p>
+       <p class="mb-0">${movie.category.split("|").join(", ")}</p>
+      </div>
+      `;
+  elMoviesFavoritesItem.appendChild(elBtnClick)
+  elMoviesFavoritesList.appendChild(elMoviesFavoritesItem);
+  elBtnClick.onclick = () => {
+    elMoviesFavoritesList.removeChild(elMoviesFavoritesItem);
+    localStorage.removeItem("Movies");
+  }
+})
+
+// console.log(arrFovorite);
 
 // change key name in movies.js
 let elMoviesArr = movies.forEach(movie => {
@@ -77,38 +105,38 @@ let createElementMovies = (movie) => {
     let elMoviesFavoritesItem = document.createElement("li");
     elMoviesFavoritesItem.className = "card p-2 flex-row mb-1 movies__fav-item ";
 
-    elInputCheckFavorites.addEventListener("change", function () {
-      let arrFovoriteIndex = arrFovorite.indexOf(movie.titleLigt);
+    let elBtnClick = document.createElement("button");
 
-      if (elInputCheckFavorites.checked) {
-        elMoviesFavoritesItem.innerHTML = `
-        <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
-       <div>
-         <h5 class="mb-1">${movie.titleLigt}</h5>
-         <p class="mb-1">${movie.reting}</p>
-         <p class="mb-0">${movie.category.split("|").join(", ")}</p>
-        </div>
-        `;
-        arrFovorite.push(movie);
-        // add local storage
-        localStorage.setItem("Movies", JSON.stringify(arrFovorite));
+    elBtnClick.type = "button";
+    elBtnClick.className = "btn-close movie__fovorite-btn-close";
 
-        elMoviesFavoritesList.appendChild(elMoviesFavoritesItem);
+    elInputCheckFavorites.addEventListener("click", function () {
 
-      } else {
-        arrFovorite.splice(arrFovoriteIndex, 1)
+      elMoviesFavoritesItem.innerHTML = `
+      <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
+     <div>
+       <h5 class="mb-1">${movie.titleLigt}</h5>
+       <p class="mb-1">${movie.reting}</p>
+       <p class="mb-0">${movie.category.split("|").join(", ")}</p>
+      </div>
+      `;
+      arrFovorite.push(movie);
+      // add local storage
+      localStorage.setItem("Movies", JSON.stringify(arrFovorite));
+
+      elMoviesFavoritesList.appendChild(elMoviesFavoritesItem);
+
+      elBtnClick.onclick = () => {
         elMoviesFavoritesList.removeChild(elMoviesFavoritesItem);
+        console.log(arrFovorite);
       }
-
+      elMoviesFavoritesItem.appendChild(elBtnClick);
     })
+
   })
 
   return newElItem;
 }
-
-// get local storage
-let localInfo = localStorage.getItem("Movies");
-console.log(JSON.parse(localInfo));
 
 // Render Movies in append for list
 let renderMovies = (movies) => {
@@ -201,3 +229,5 @@ elMoviesSelectSort.addEventListener("change", function () {
   }
 
 })
+
+// localStorage.clear()

@@ -59,9 +59,6 @@
   transform: scale(1.5);
 }
 
-.modal__fovorite-chekbox:checked~.modal__fovorite-img {
-  color: yellow;
-}
 
 .movies__fav-item {
   position: relative;
