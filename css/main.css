@@ -64,7 +64,14 @@
   position: relative;
 }
 
-.movie__fovorite-btn-close {
+.js-star {
   position: absolute;
-  right: 10px;
+  left: 20px;
+  bottom: 20px;
+}
+
+.book-movie-delet {
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

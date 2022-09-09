@@ -24,37 +24,12 @@ movies = movies.slice(0, 100);
 let arr = [];
 
 // get local storage
-let localInfo = JSON.parse(localStorage.getItem("Movies"));
-let arrFovorite = localInfo || [];
 
-arrFovorite.forEach(movie => {
-  let elMoviesFavoritesItem = document.createElement("li");
-  elMoviesFavoritesItem.className = "card p-2 flex-row mb-1 movies__fav-item ";
-
-  let elBtnClick = document.createElement("button");
-  elBtnClick.type = "button";
-  elBtnClick.className = "btn-close movie__fovorite-btn-close";
-
-  elMoviesFavoritesItem.innerHTML = `
-      <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
-     <div>
-       <h5 class="mb-1">${movie.titleLigt}</h5>
-       <p class="mb-1">${movie.reting}</p>
-       <p class="mb-0">${movie.category.split("|").join(", ")}</p>
-      </div>
-      `;
-  elMoviesFavoritesItem.appendChild(elBtnClick)
-  elMoviesFavoritesList.appendChild(elMoviesFavoritesItem);
-  elBtnClick.onclick = () => {
-    elMoviesFavoritesList.removeChild(elMoviesFavoritesItem);
-    localStorage.removeItem("Movies");
-  }
-})
-
-// console.log(arrFovorite);
+let bookmarkInfo = JSON.parse(localStorage.getItem("bookList"));
+let bookmarkArr = bookmarkInfo || [];
 
 // change key name in movies.js
-let elMoviesArr = movies.forEach(movie => {
+movies.forEach(movie => {
   arr.push(
     {
       titleLigt: movie.Title,
@@ -66,6 +41,7 @@ let elMoviesArr = movies.forEach(movie => {
       ytid: movie.ytid,
       retImdb: movie.imdb_rating,
       summary: movie.summary,
+      imdId: movie.imdb_id
     }
   )
 })
@@ -74,7 +50,7 @@ let elMoviesArr = movies.forEach(movie => {
 let createElementMovies = (movie) => {
   let newElItem = elMoviesTemplate.cloneNode(true);
 
-  newElItem.querySelector(".movie__link").href = movie.imdb;
+  // newElItem.querySelector(".movie__link").href = movie.imdb;
 
   newElItem.querySelector(".movie__img").src = movie.img;
   newElItem.querySelector(".movie__img").alt = movie.title;
@@ -83,6 +59,8 @@ let createElementMovies = (movie) => {
   newElItem.querySelector(".movie__reting").textContent = movie.reting;
 
   newElItem.querySelector(".movie__category").innerHTML = movie.category.split("|").join(", ");
+
+  newElItem.querySelector(".js-star").dataset.imdId = movie.imdId;
 
   // SelectorAll Button in Template
   let elBtns = newElItem.querySelectorAll(".movie__btn");
@@ -100,43 +78,60 @@ let createElementMovies = (movie) => {
       `;
     })
 
-    let elInputCheckFavorites = newElItem.querySelector(".modal__fovorite-chekbox");
-
-    let elMoviesFavoritesItem = document.createElement("li");
-    elMoviesFavoritesItem.className = "card p-2 flex-row mb-1 movies__fav-item ";
-
-    let elBtnClick = document.createElement("button");
-
-    elBtnClick.type = "button";
-    elBtnClick.className = "btn-close movie__fovorite-btn-close";
-
-    elInputCheckFavorites.addEventListener("click", function () {
-
-      elMoviesFavoritesItem.innerHTML = `
-      <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
-     <div>
-       <h5 class="mb-1">${movie.titleLigt}</h5>
-       <p class="mb-1">${movie.reting}</p>
-       <p class="mb-0">${movie.category.split("|").join(", ")}</p>
-      </div>
-      `;
-      arrFovorite.push(movie);
-      // add local storage
-      localStorage.setItem("Movies", JSON.stringify(arrFovorite));
-
-      elMoviesFavoritesList.appendChild(elMoviesFavoritesItem);
-
-      elBtnClick.onclick = () => {
-        elMoviesFavoritesList.removeChild(elMoviesFavoritesItem);
-        console.log(arrFovorite);
-      }
-      elMoviesFavoritesItem.appendChild(elBtnClick);
-    })
-
   })
 
   return newElItem;
 }
+
+function bookDelete() {
+  elMoviesFavoritesList.addEventListener("click", (evt) => {
+    if (evt.target.matches(".book-movie-delet")) {
+      let deletId = evt.target.getAttribute("data-id");
+      let deletBookIndex = bookmarkArr.findIndex(item => {
+        return item.imdId == deletId;
+      })
+      bookmarkArr.splice(deletBookIndex, 1)
+      console.log(deletBookIndex);
+      rendringBook(bookmarkArr)
+      localStorage.setItem("bookList", JSON.stringify(bookmarkArr))
+    }
+  })
+}
+
+bookDelete();
+
+function rendringBook(bookMovies) {
+  elMoviesFavoritesList.innerHTML = "";
+
+  bookMovies.forEach(movie => {
+    elMoviesFavoritesList.innerHTML += `
+      <li class="card flex-row position-relative mb-2 p-2">
+        <img class ="rounded me-3" src="${movie.img}" alt="${movie.titleLigt}" width="100" height="100">
+        <div>
+          <h5 class="mb-1">${movie.titleLigt}</h5>
+          <p class="mb-1">${movie.reting}</p>
+          <p class="mb-0">${movie.category.split("|").join(", ")}</p>
+          </div>
+          <button class = "book-movie-delet btn-close " data-id = "${movie.imdId}"></button>
+      </li>
+    `;
+  })
+}
+
+rendringBook(bookmarkArr)
+
+elMoviesList.addEventListener("click", function (evt) {
+  if (evt.path[2].matches(".js-star")) {
+    let btnId = evt.path[2].dataset.imdId;
+    let bookFind = arr.find(movie => {
+      return movie.imdId == btnId
+    })
+    bookmarkArr.push(bookFind)
+    rendringBook(bookmarkArr)
+    localStorage.setItem("bookList", JSON.stringify(bookmarkArr))
+  }
+
+})
 
 // Render Movies in append for list
 let renderMovies = (movies) => {
